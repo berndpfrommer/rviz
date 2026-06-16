@@ -478,11 +478,13 @@ bool ImageDisplay::eventFilter(QObject * watched, QEvent * event)
       // width/height) is consistent.
       QPoint pos_in_panel;
       if (auto * w = qobject_cast<QWidget *>(watched)) {
-        pos_in_panel = w->mapTo(render_panel_.get(), me->position().toPoint());
+        // pos_in_panel = w->mapTo(render_panel_.get(), me->position().toPoint());
+        pos_in_panel = w->mapTo(render_panel_.get(), me->localPos().toPoint());
       } else {
         // watched is the QWindow; its geometry is aligned with the panel
         // contents (layout margins are 0), so use the event position as-is.
-        pos_in_panel = me->position().toPoint();
+        //pos_in_panel = me->position().toPoint();
+        pos_in_panel = me->localPos().toPoint();
       }
       updatePixelStatusFromWidgetPos(pos_in_panel.x(), pos_in_panel.y());
     } else if (event->type() == QEvent::Leave) {
